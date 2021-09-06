@@ -87,7 +87,6 @@ textarea {
 textarea:focus, input:focus {
   border-color: transparent !important;
 }
-
 input:focus::-webkit-input-placeholder { color:transparent; }
 input:focus:-moz-placeholder { color:transparent; }
 input:focus::-moz-placeholder { color:transparent; }
@@ -108,11 +107,12 @@ textarea:-moz-placeholder { color: #999999;}
 textarea::-moz-placeholder { color: #999999;}
 textarea:-ms-input-placeholder { color: #999999;}
 
-
 label {
-  display: block;
-  margin: 0;
-  color: #fff;
+
+    display: block;
+    margin: 0;
+    color: #fff;
+  
 }
 
 .mt-5 .mb-5

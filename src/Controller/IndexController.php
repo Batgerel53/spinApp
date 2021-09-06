@@ -74,6 +74,9 @@ return $this->render('index/update.html.twig', ['form' => $form->createView()]);
 /**
  * @Route("/delete/ {id}", name="delete")
  */
+
+
+ 
  public function delete($id){
 $data=$this->getDoctrine()->getRepository(Tohirol::class)->find($id);
 $em = $this->getDoctrine()->getManager();
