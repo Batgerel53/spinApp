@@ -1,20 +1,56 @@
 {% extends 'base.html.twig' %}
+{% block title %}  Азтан шалгаруулах !{% endblock %}
+        {# Run `composer require symfony/webpack-encore-bundle`
+           and uncomment the following Encore helpers to start using Symfony UX #}
+        {% block stylesheets %}
+            {#{{ encore_entry_link_tags('app') }}#}
 
-{% block title %}Hello HomeController!{% endblock %}
+              <link rel="icon" type="image/png" href="/images/icons/gmobile.ico"/>
+	          <link rel="stylesheet" type="text/css" href="css/style.css">
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+        {% endblock %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        {% block javascripts %}
+            {#{{ encore_entry_script_tags('app') }}#}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/spinTest/spinTest/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/spinTest/spinTest/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
-</div>
-{% endblock %}
+<!--===============================================================================================-->
+	<script src="js/script.js"></script>
+
+        {% endblock %}
+
+        {% block body %}
+        
+        <h1><center> Хүрдээ эргүүлээрэй  <br>
+		🧐🤔🧐  <img src="/images/icons/gmobile.ico">  </center><br> 
+	<div id="mainbox" class="mainbox">
+		<div id="box" class="box">
+			<div class="box1">
+				<span class="span1"><b>Iphone 12</b></span>
+				<span class="span2"><b>Macbook pro </b></span>
+				<span class="span3"><b> 20GB Дата</b></span>
+				<span class="span4"><b> 1000 нэгж</b></span>
+			</div>
+
+
+			<div class="box2">
+				<span class="span1"><b>Пүүз</b></span>
+				<span class="span2"><b>Чихэвч</b></span>
+				<span class="span3"><b>Цаг</b></span>
+				<span class="span4"><b>Скүүтэр</b></span>
+              
+			</div>
+		</div>
+
+		<button class="spin" onclick="myfunction()">ДАР</button>
+	</div>
+
+
+ <a class="btn btn-primary" href="{{path('create') }}"> Буцах </a>
+
+       
+        
+        {% endblock %}
+  
+
+
+

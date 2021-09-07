@@ -4,27 +4,72 @@
 
 {% block body %}
 
+<div class="limiter">
+<div class="container-login100">
+<div class="wrap-login100 p-b-160 p-t-50">
 
-{# <form method="post">
+
+<form method="post">
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
     {% if app.user %}
         <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Гарах</a>
+           Нэвтэрсэн байна {{ app.user.username }}, <a href="{{ path('app_logout') }}">Гарах</a>
         </div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal"> Нэвтрэх </h1>
+    <h3 class="mt-5 mb-5" style="color:white; text-align:center; font-size:36px;"> Нэвтрэх </h3>
+         
     <label for="inputEmail">И-мэйл хаяг</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
     <label for="inputPassword">Нууц үг</label>
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
     <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
+           value="{{ csrf_token('authenticate')}}">
+
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" name="_remember_me"> Сануулах
+            </label>
+        </div>
+  
+    <button class="login100-form-btn" type="submit">
+     Нэвтрэх
+    </button>
+</form>
+
+</div>
+</div>
+</div>
+
+{# <div class="limiter"> 
+<div class="container-login100">
+<div class="wrap-login100 p-b-160 p-t-50">
+<h3 class="mt-5 mb-5" style="color:white; text-align:center; font-size:36px;> Нэвтрэх </h3>
+    <form method="post">
+
+ {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+{% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Гарах</a>
+        </div>
+    {% endif %}
+
+
+
+<label for="inputEmail">И-мэйл хаяг</label>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+    <label for="inputPassword">Нууц үг</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}">
         <div class="checkbox mb-3">
             <label>
                 <input type="checkbox" name="_remember_me"> Сануулах
@@ -34,30 +79,12 @@
     <button class="btn btn-lg btn-primary" type="submit">
      Нэвтрэх
     </button>
-</form> #}
 
-
-<div class="limiter"> 
-<div class="container-login100">
-
-<div class="wrap-login100 p-b-160 p-t-50">
-
-<h3 class="mt-5 mb-5" style="color:white; text-align:center; font-size:36px;> Нэвтрэх </h3>
-
-{{form_start(form)}}
-<div class="form-group">
-
-{{form_label{form.}}}
-
- </div>
-
-
-
-{{form_end(form)}}
+</form>
 
 </div>
  </div>
-</div>
+</div> #}
 
 
 

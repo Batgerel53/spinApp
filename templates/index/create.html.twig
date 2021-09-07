@@ -10,13 +10,11 @@
                 {{ form_start(form) }}
                 <div class="form-group">
                     {{ form_label(form.name) }}
-                     {{ form_errors(form.name) }}
                     {{ form_widget (form.name, {'attr':{'class':'form-control'}}) }}
                 </div>
 
                 <div class="form-group">
                     {{ form_label(form.quantity) }}
-                       {{ form_errors(form.quantity) }}
                     {{ form_widget (form.quantity, {'attr':{'class':'form-control'}}) }}
                 </div>
 
@@ -24,6 +22,8 @@
                     {{ form_label(form.chance) }}
                     {{ form_widget (form.chance, {'attr':{'class':'form-control'}}) }}
                 </div> #}
+
+                
                 <div class="container-login100-form-btn">
                     <button class="login100-form-btn"> Нэмэх </button>
                 </div>
