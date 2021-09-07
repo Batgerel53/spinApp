@@ -20,34 +20,31 @@
 
         {% block body %}
         
-        <h1><center> Хүрдээ эргүүлээрэй  <br>
+        <h1><center> Хүрдээ эргүүлээрэй <br>
 		🧐🤔🧐  <img src="/images/icons/gmobile.ico">  </center><br> 
 	<div id="mainbox" class="mainbox">
 		<div id="box" class="box">
+
 			<div class="box1">
-				<span class="span1"><b>Iphone 12</b></span>
-				<span class="span2"><b>Macbook pro </b></span>
-				<span class="span3"><b> 20GB Дата</b></span>
-				<span class="span4"><b> 1000 нэгж</b></span>
+            
+             {% for data in list %}
+				<span class="span1"><b>{{data.name}}</b></span>		
 			</div>
 
 
 			<div class="box2">
-				<span class="span1"><b>Пүүз</b></span>
-				<span class="span2"><b>Чихэвч</b></span>
-				<span class="span3"><b>Цаг</b></span>
-				<span class="span4"><b>Скүүтэр</b></span>
-              
+				<span class="span1"><b> {{data.name}} </b></span>
 			</div>
+
+              {% endfor %}
+
 		</div>
+
 
 		<button class="spin" onclick="myfunction()">ДАР</button>
 	</div>
 
-
  <a class="btn btn-primary" href="{{path('create') }}"> Буцах </a>
-
-       
         
         {% endblock %}
   

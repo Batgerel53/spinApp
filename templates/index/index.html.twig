@@ -28,11 +28,14 @@
       <td>{{data.chance}}</td>
 
 <td> 
+
 <a class="btn btn-warning" href="{{path('update', {'id':data.id}) }}"> Засах  </a>
 <a class="btn btn-danger" href="{{path('delete', {'id':data.id}) }}"> Устгах  </a>
+
 </td>
     </tr>
   {% endfor %}
+  
   </tbody>
 </table>
 

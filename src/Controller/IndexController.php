@@ -40,14 +40,13 @@ if ($form->isSubmitted() && $form->isValid()) {
 
 return $this->redirectToRoute('index');
 }
+
 return $this->render('index/create.html.twig', ['form' => $form->createView()]);
 
       }
 
 
-      
-
-
+    
 /**
  * @Route("/update/ {id}", name="update")
  */
