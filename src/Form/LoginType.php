@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 class LoginType extends AbstractType
 {
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -19,7 +19,6 @@ class LoginType extends AbstractType
             ->add('password', PasswordType::class, ['label'=>'Нууц үг'])
         ;
     }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

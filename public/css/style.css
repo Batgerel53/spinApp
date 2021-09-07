@@ -43,6 +43,7 @@
     overflow: hidden;
     transition: all ease 5s;
   }
+  
   span{
     width: 50%;
     height: 50%;
@@ -67,7 +68,7 @@
     bottom: 0;
     left: 120px;
   }
-  .span4{
+  .span4 {
     clip-path: polygon(50% 100%, 92% 0, 8% 0);
     background-color: #22ff00;
     top: 0;

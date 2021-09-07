@@ -26,7 +26,6 @@
       <td> {{data.name}} </td>
       <td>{{data.quantity}}</td>
       <td>{{data.chance}}</td>
-
 <td> 
 
 <a class="btn btn-warning" href="{{path('update', {'id':data.id}) }}"> Засах  </a>
@@ -35,12 +34,11 @@
 </td>
     </tr>
   {% endfor %}
-  
+
   </tbody>
 </table>
 
-
   <a class="btn btn-primary" href="{{path('create') }}"> Нэмэх </a>
-   <a class="btn btn-primary" href="{{path('home') }}"> Хүрд эргүүлэх </a>
+   <a class="btn btn-success" href="{{path('home') }}"> Хүрд эргүүлэх </a>
  </div>
 {% endblock %}

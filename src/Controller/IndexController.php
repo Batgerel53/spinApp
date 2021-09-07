@@ -45,8 +45,6 @@ return $this->render('index/create.html.twig', ['form' => $form->createView()]);
 
       }
 
-
-    
 /**
  * @Route("/update/ {id}", name="update")
  */

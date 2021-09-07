@@ -15,37 +15,39 @@
 
 <!--===============================================================================================-->
 	<script src="js/script.js"></script>
-
         {% endblock %}
 
         {% block body %}
         
         <h1><center> Хүрдээ эргүүлээрэй <br>
-		🧐🤔🧐  <img src="/images/icons/gmobile.ico">  </center><br> 
+		🧐🤔🧐  <img src="/images/icons/gmobile.ico" style="width:30px; height:30px;">  </center><br> 
+
 	<div id="mainbox" class="mainbox">
 		<div id="box" class="box">
-
+  
 			<div class="box1">
-            
-             {% for data in list %}
+           {% for data in list %}
 				<span class="span1"><b>{{data.name}}</b></span>		
+				<span class="span2"><b>{{data.name}}</b></span>		
+				<span class="span3"><b>{{data.name}}</b></span>		
+				<span class="span4"><b>{{data.name}}</b></span>		
+                 {% endfor %}
 			</div>
-
-
+            
 			<div class="box2">
-				<span class="span1"><b> {{data.name}} </b></span>
+           {% for data in list %}
+				<span class="span1"><b>{{data.name}}</b></span>		
+				<span class="span2"><b>{{data.name}}</b></span>		
+				<span class="span3"><b>{{data.name}}</b></span>		
+				<span class="span4"><b>{{data.name}}</b></span>		
+                 {% endfor %}
 			</div>
-
-              {% endfor %}
-
 		</div>
 
-
+    
 		<button class="spin" onclick="myfunction()">ДАР</button>
 	</div>
-
  <a class="btn btn-primary" href="{{path('create') }}"> Буцах </a>
-        
         {% endblock %}
   
 
