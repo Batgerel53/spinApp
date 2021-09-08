@@ -3,53 +3,47 @@
         {# Run `composer require symfony/webpack-encore-bundle`
            and uncomment the following Encore helpers to start using Symfony UX #}
         {% block stylesheets %}
-            {#{{ encore_entry_link_tags('app') }}#}
+            {# {{ encore_entry_link_tags('app') }} #}
 
-              <link rel="icon" type="image/png" href="/images/icons/gmobile.ico"/>
-	          <link rel="stylesheet" type="text/css" href="css/style.css">
+            <link rel="icon" type="image/png" href="/images/icons/gmobile.ico"/>
+            <link rel="stylesheet" type="text/css" href="css/style.css">
 
         {% endblock %}
 
         {% block javascripts %}
-            {#{{ encore_entry_script_tags('app') }}#}
+            {# {{ encore_entry_script_tags('app') }} #}
 
-<!--===============================================================================================-->
-	<script src="js/script.js"></script>
+            <!--===============================================================================================-->
+            <script src="js/script.js"></script>
         {% endblock %}
 
         {% block body %}
-        
-        <h1><center> Хүрдээ эргүүлээрэй <br>
-		🧐🤔🧐  <img src="/images/icons/gmobile.ico" style="width:30px; height:30px;">  </center><br> 
 
-	<div id="mainbox" class="mainbox">
-		<div id="box" class="box">
-  
-			<div class="box1">
-           {% for data in list %}
-				<span class="span1"><b>{{data.name}}</b></span>		
-				<span class="span2"><b>{{data.name}}</b></span>		
-				<span class="span3"><b>{{data.name}}</b></span>		
-				<span class="span4"><b>{{data.name}}</b></span>		
+<h1>
+    <center> Хүрдээ эргүүлээрэй <br>
+        🧐🤔🧐 <img src="/images/icons/gmobile.ico" style="width:30px; height:30px;"></center>
+    <br>
+
+    <div id="mainbox" class="mainbox">
+        <div id="box" class="box">
+            <div class="box1">
+            {% for data in even %}
+                        <span class="span{{ loop.index }}"><b> {{ data.name }}</b></span>
+            {% endfor %}
+            </div>
+            <div class="box2">
+           {% for dataodd in odd %}
+               <span class="span{{ loop.index }}"><b> {{ dataodd.name }}</b></span>
                  {% endfor %}
 			</div>
-            
-			<div class="box2">
-           {% for data in list %}
-				<span class="span1"><b>{{data.name}}</b></span>		
-				<span class="span2"><b>{{data.name}}</b></span>		
-				<span class="span3"><b>{{data.name}}</b></span>		
-				<span class="span4"><b>{{data.name}}</b></span>		
-                 {% endfor %}
-			</div>
-		</div>
 
-    
-		<button class="spin" onclick="myfunction()">ДАР</button>
-	</div>
- <a class="btn btn-primary" href="{{path('create') }}"> Буцах </a>
-        {% endblock %}
-  
+        </div>
+        <button class="spin" onclick="myfunction()">ДАР</button>
+    </div>
+    <a class="btn btn-primary" href="{{ path('create') }}"> Буцах </a>
+
+    {% endblock %}
+
 
 
 

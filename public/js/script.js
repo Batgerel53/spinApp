@@ -4,9 +4,7 @@ function myfunction(){
 	var y = 9999; // max value
 
 	var deg = Math.floor(Math.random() * (x - y)) + y;
-
 	document.getElementById('box').style.transform = "rotate("+deg+"deg)";
-
 	var element = document.getElementById('mainbox');
 	element.classList.remove('animate');
 	setTimeout(function(){

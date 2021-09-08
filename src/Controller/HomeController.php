@@ -14,13 +14,23 @@ class HomeController extends AbstractController
 
     public function index(): Response
     {
-       $data=$this->getDoctrine()->getRepository(Tohirol::class)->findAll();
+       $query=$this->getDoctrine()->getRepository(Tohirol::class)->findAll();
+       $even = array();
+       $odd = array();
+       $i=0;
+       foreach($query as $data){
+           $i++;
+           if($i% 2 == 0){
+               $even[] = $data;
+           }
+           else{
+             $odd[] = $data;
+           }
+       }
         return $this->render('home/index.html.twig',[
             // 'controller_name' => 'HomeController',
-            'list' => $data
-
+            'even' => $even,
+            'odd'=>$odd,
         ]);
     }
-
-    
 }
