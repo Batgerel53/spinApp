@@ -17,65 +17,80 @@ class IndexController extends AbstractController
 
     public function index(): Response
     {
-        $data=$this->getDoctrine()->getRepository(Tohirol::class)->findAll();
+        $data = $this->getDoctrine()->getRepository(Tohirol::class)->findAll();
         return $this->render('index/index.html.twig', [
-     'controller_name' => 'IndexController',
-'list' =>$data
+            'controller_name' => 'IndexController',
+            'list' => $data
         ]);
     }
 
-       /**
+    /**
+     * @Route("/spin", name="spin")
+     */
+
+    public function spin(Request $request): Response
+    {
+        return $this->render('index/spin.html.twig', [
+            'controller_name' => 'IndexController'
+        ]);
+    }
+
+
+    /**
      * @Route("/create", name="create")
      */
-      public function create(Request $request) {
-$tohirol=new Tohirol();
-$form =$this->createForm(TohirolType::class, $tohirol);
-$form->handleRequest($request);
+    public function create(Request $request)
+    {
+        $tohirol = new Tohirol();
+        $form = $this->createForm(TohirolType::class, $tohirol);
+        $form->handleRequest($request);
 
-if ($form->isSubmitted() && $form->isValid()) {
-    $em = $this->getDoctrine()->getManager();
-    $em->persist($tohirol);
-    $em->flush();
-    $this->addFlash('notice', 'Амжилттай нэмэгдлээ ');
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($tohirol);
+            $em->flush();
+            $this->addFlash('notice', 'Амжилттай нэмэгдлээ ');
 
-return $this->redirectToRoute('index');
-}
+            return $this->redirectToRoute('index');
+        }
 
-return $this->render('index/create.html.twig', ['form' => $form->createView()]);
+        return $this->render('index/create.html.twig', ['form' => $form->createView()]);
 
-      }
+    }
 
-/**
- * @Route("/update/ {id}", name="update")
- */
+    /**
+     * @Route("/update/ {id}", name="update")
+     */
 
- public function update(Request $request, $id){
-$tohirol=$this->getDoctrine()->getRepository(Tohirol::class)->find($id);
-$form =$this->createForm(TohirolType::class,$tohirol);
-$form->handleRequest($request);
+    public function update(Request $request, $id)
+    {
+        $tohirol = $this->getDoctrine()->getRepository(Tohirol::class)->find($id);
+        $form = $this->createForm(TohirolType::class, $tohirol);
+        $form->handleRequest($request);
 
-if ($form->isSubmitted() && $form->isValid()) {
-    $em = $this->getDoctrine()->getManager();
-    $em->persist($tohirol);
-    $em->flush();
-    $this->addFlash('notice', 'Амжилттай засагдлаа ');
-return $this->redirectToRoute('index');
- }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($tohirol);
+            $em->flush();
+            $this->addFlash('notice', 'Амжилттай засагдлаа ');
+            return $this->redirectToRoute('index');
+        }
 
-return $this->render('index/update.html.twig', ['form' => $form->createView()]);
+        return $this->render('index/update.html.twig', ['form' => $form->createView()]);
 
- }
+    }
 
-/**
- * @Route("/delete/ {id}", name="delete")
- */
+    /**
+     * @Route("/delete/ {id}", name="delete")
+     */
 
-public function delete($id){
-$data=$this->getDoctrine()->getRepository(Tohirol::class)->find($id);
-$em = $this->getDoctrine()->getManager();
-$em->remove($data);
-$em->flush();
-$this->addFlash('notice', 'Амжилттай устгалаа ');
-return $this->redirectToRoute('index');
- }
+    public function delete($id)
+    {
+        $data = $this->getDoctrine()->getRepository(Tohirol::class)->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($data);
+        $em->flush();
+        $this->addFlash('notice', 'Амжилттай устгалаа ');
+        return $this->redirectToRoute('index');
+    }
 }
