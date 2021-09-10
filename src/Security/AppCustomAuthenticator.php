@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Security;
-
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,23 +18,20 @@ use Symfony\Component\Security\Http\Util\TargetPathTrait;
 class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
-
     public const LOGIN_ROUTE = 'app_login';
-
     private UrlGeneratorInterface $urlGenerator;
-
     public function __construct(UrlGeneratorInterface $urlGenerator)
     {
         $this->urlGenerator = $urlGenerator;
     }
 
+
     public function authenticate(Request $request): PassportInterface
+
     {
-        $email = $request->request->get('email', '');
-
+        $email = $request->request->get('email',  '');
         $request->getSession()->set(Security::LAST_USERNAME, $email);
-
-        return new Passport(
+            return new Passport(
             new UserBadge($email),
             new PasswordCredentials($request->request->get('password', '')),
             [
@@ -44,6 +40,8 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
+
+
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
@@ -51,7 +49,7 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-    return new RedirectResponse($this->urlGenerator->generate('home'));
+    return new RedirectResponse($this->urlGenerator->generate('index'));
         //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
@@ -59,4 +57,5 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
+
 }

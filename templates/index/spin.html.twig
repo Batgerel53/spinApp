@@ -1,198 +1,444 @@
+{% extends 'base.html.twig' %}
 
-
-        {% block title %}Хүрд эргүүлэх {% endblock %}
+        {% block title %} Хүрд эргүүлэх {% endblock %}
 
         {% block stylesheets %}
-                <link rel="icon" type="image/png" href="/images/icons/gmobile.ico"/>
-        <style type="text/css">
-                text{
-                        font-family:Helvetica, Arial, sans-serif;
-                        font-size:11px;
-                        pointer-events:none;
-                }
-                #chart{
-                        position:absolute;
-                        width:500px;
-                        height:500px;
-                        top:0;
-                        left:0;
-                }
-                #question{
-                        position: absolute;
-                        width:400px;
-                        height:500px;
-                        top:0;
-                        left:520px;
-                }
-                #question h1{
-                        font-size: 50px;
-                        font-weight: bold;
-                        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-                        position: absolute;
-                        padding: 0;
-                        margin: 0;
-                        top:50%;
-                        -webkit-transform:translate(0,-50%);
-                        transform:translate(0,-50%);
-                }
-
-
-        </style>
+            <link rel="icon" type="image/png" href="/images/icons/gmobile.ico"/>
+            <link rel="stylesheet" type="text/css" href="css/spin.css">
 
         {% endblock %}
+
+
         {% block javascripts %}
-
-                <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-                <script type="text/javascript" charset="utf-8">
-                        let padding = {top:20, right:40, bottom:0, left:0},
-                                w = 500 - padding.left - padding.right,
-                                h = 500 - padding.top  - padding.bottom,
-                                r = Math.min(w, h)/2,
-                                rotation = 0,
-                                oldrotation = 0,
-                                picked = 100000,
-                                oldpick = [],
-                                color = d3.scale.category20();
-                        const data = [
-                                {"label":"Dell LAPTOP",  "value":1,  "question":"Та Dell Laptop хожлоо"},
-                                {"label":"IMAC PRO",  "value":1,  "question":"Та IMAC PRO хожлоо"},
-                                {"label":"SUZUKI",  "value":1,  "question":"Та SUZUKI хожлоо"},
-                                {"label":"HONDA",  "value":1,  "question":"HONDA хожлоо"},
-                                {"label":"FERRARI",  "value":1,  "question":"Та FERRARI хожлоо"},
-                        ];
-
-                        const svg = d3.select('#chart')
-                                .append("svg")
-                                .data([data])
-                                .attr("width",  w + padding.left + padding.right)
-                                .attr("height", h + padding.top + padding.bottom);
-                        const container = svg.append("g")
-                                .attr("class", "Shareholder")
-                                .attr("transform", "translate(" + (w/2 + padding.left) + "," + (h/2 + padding.top) + ")");
-                        const vis = container
-                                .append("g");
-
-                        const pie = d3.layout.pie().sort(null).value(function(d){return 1;});
-                        // declare an arc generator function
-                        const arc = d3.svg.arc().outerRadius(r);
-
-                        // select paths, use arc generator to draw
-                        let arcs = vis.selectAll("g.slice")
-                                .data(pie)
-                                .enter()
-                                .append("g")
-                                .attr("class", "slice");
-                        arcs.append("path")
-                                .attr("fill", function(d, i){ return color(i); })
-                                .attr("d", function (d) { return arc(d); });
-                        // add the text
-                        arcs.append("text").attr("transform", function(d){
-                                d.innerRadius = 0;
-                                d.outerRadius = r;
-                                d.angle = (d.startAngle + d.endAngle)/2;
-                                return "rotate(" + (d.angle * 180 / Math.PI - 90) + ")translate(" + (d.outerRadius -10) +")";
-                        })
-                                .attr("text-anchor", "end")
-                                .text( function(d, i) {
-                                        return data[i].label;
-                                });
-                        container.on("click", spin);
-                        function spin(d){
-
-                                container.on("click", null);
-                                //all slices have been seen, all done
-                                console.log("OldPick: " + oldpick.length, "Data length: " + data.length);
-                                if(oldpick.length === data.length){
-                                        console.log("done");
-                                        container.on("click", null);
-                                        return;
-                                }
-
-                                let  ps = 360/data.length,
-                                        pieces = Math.round(1440/data.length),
-                                        rng      = Math.floor((Math.random() * 1440) + 360);
-
-                                rotation = (Math.round(rng / ps) * ps);
-
-                                picked = Math.round(data.length - (rotation % 360)/ps);
-                                picked = picked >= data.length ? (picked % data.length) : picked;
-                                if(oldpick.indexOf(picked) !== -1){
-                                        d3.select(this).call(spin);
-                                        return;
-                                } else {
-                                        oldpick.push(picked);
-                                }
-                                rotation += 90 - Math.round(ps/2);
-                                vis.transition()
-                                        .duration(3000)
-                                        .attrTween("transform", rotTween)
-                                        .each("end", function(){
-                                                //mark question as seen
-                                                d3.select(".slice:nth-child(" + (picked + 1) + ") path")
-                                                        .attr("fill", "#111");
-                                                //populate question
-                                                d3.select("#question h1")
-                                                        .text(data[picked].question);
-                                                oldrotation = rotation;
-
-                                                container.on("click", spin);
-                                        });
-                        }
-                        //make arrow
-                        svg.append("g")
-                                .attr("transform", "translate(" + (w + padding.left + padding.right) + "," + ((h/2)+padding.top) + ")")
-                                .append("path")
-                                .attr("d", "M-" + (r*.15) + ",0L0," + (r*.05) + "L0,-" + (r*.05) + "Z")
-                                .style({"fill":"black"});
-                        //draw spin circle
-                        container.append("circle")
-                                .attr("cx", 0)
-                                .attr("cy", 0)
-                                .attr("r", 60)
-                                .style({"fill":"white","cursor":"pointer"});
-                        //spin text
-                        container.append("text")
-                                .attr("x", 0)
-                                .attr("y", 15)
-                                .attr("text-anchor", "middle")
-                                .text("SPIN")
-                                .style({"font-weight":"bold", "font-size":"30px"});
-
-                        function rotTween(to) {
-                                const i = d3.interpolate(oldrotation % 360, rotation);
-                                return function(t) {
-                                        return "rotate(" + i(t) + ")";
-                                };
-                        }
-
-
-                        function getRandomNumbers(){
-                                const array = new Uint16Array(1000),
-                                        scale = d3.scale.linear().range([360, 1440]).domain([0, 100000]);
-                                if(window.hasOwnProperty("crypto") && typeof window.crypto.getRandomValues === "function"){
-                                        window.crypto.getRandomValues(array);
-                                        console.log("works");
-                                } else {
-                                        //no support for crypto, get crappy random numbers
-                                        for(let i=0; i < 1000; i++){
-                                                array[i] = Math.floor(Math.random() * 100000) + 1;
-                                        }
-                                }
-                                return array;
-                        }
-                </script>
-
+            <script src="js/spin.js"></script>
+            <script
+                    src="https://code.jquery.com/jquery-3.6.0.slim.min.js"
+                    integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI="
+                    crossorigin="anonymous"></script>
+            <script
+                    src="https://code.jquery.com/jquery-3.6.0.slim.js"
+                    integrity="sha256-HwWONEZrpuoh951cQD1ov2HUK5zA5DwJ1DNUXaM6FsY="
+                    crossorigin="anonymous"></script>
+            <script
+                    src="https://code.jquery.com/jquery-3.6.0.min.js"
+                    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+                    crossorigin="anonymous"></script>
+            <script
+                    src="https://code.jquery.com/jquery-3.6.0.js"
+                    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk="
+                    crossorigin="anonymous"></script>
         {% endblock %}
-
-
 
         {% block body %}
-        
-        <h3> Хүрд эргүүлэх  </h3>
+            <script>
 
-                <div id="chart"></div>
-                <div id="question"><h1></h1></div>
+                (function ($) {
+                    var venues = [{"name": "1900 Mexican Grill", "type": "Mexican"}, {
+                        "name": "300 East",
+                        "type": "American/Upscale"
+                    }, {"name": "Angry Ale's", "type": "American/Pub "}, {
+                        "name": "Azteca",
+                        "type": "Mexican"
+                    }, {"name": "Bedder Bedder and Moore", "type": "Sandwiches, Salads, Soups"}, {
+                        "name": "Boading",
+                        "type": "Chinese"
+                    }, {"name": "Brazwell's Premium Pub", "type": "American/Pub "}, {
+                        "name": "Brio Tuscan Grille",
+                        "type": "Italian"
+                    }];
+
+                    // Helpers
+                    var blackHex = '#333',
+                        whiteHex = '#fff',
+                        shuffle = function (o) {
+                            for (var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x)
+                                ;
+                            return o;
+                        },
+                        halfPI = Math.PI / 2,
+                        doublePI = Math.PI * 2;
+
+                    String.prototype.hashCode = function () {
+                        // See http://www.cse.yorku.ca/~oz/hash.html
+                        var hash = 5381,
+                            i;
+                        for (i = 0; i < this.length; i++) {
+                            char = this.charCodeAt(i);
+                            hash = ((hash << 5) + hash) + char;
+                            hash = hash & hash; // Convert to 32bit integer
+                        }
+                        return hash;
+                    };
 
 
+                    Number.prototype.mod = function (n) {
+                        return ((this % n) + n) % n;
+                    };
+
+// WHEEL!
+                    var wheel = {
+                        timerHandle: 0,
+                        timerDelay: 33,
+                        angleCurrent: 0,
+                        angleDelta: 0,
+                        size: 290,
+                        canvasContext: null,
+                        colors: ['#003366', '#FF6600', '#CCCC00', '#006600', '#3333CC', '#CC0066', '#FF3300', '#009900', '#6600CC', '#33CC33', '#0066CC', '#FF0066', '#3300FF', '#00CC00', '#FFCC00'],
+                        segments: [],
+                        seg_colors: [], // Cache of segments to colors
+                        maxSpeed: Math.PI / 16,
+                        upTime: 1000, // How long to spin up for (in ms)
+                        downTime: 5000, // How long to slow down for (in ms)
+                        spinStart: 0,
+                        frames: 0,
+                        centerX: 300,
+                        centerY: 300,
+
+                        spin: function () {
+                            // Start the wheel only if it's not already spinning
+                            if (wheel.timerHandle == 0) {
+                                wheel.spinStart = new Date().getTime();
+                                wheel.maxSpeed = Math.PI / (16 + Math.random()); // Randomly vary how hard the spin is
+                                wheel.frames = 0;
+                                wheel.sound.play();
+                                wheel.timerHandle = setInterval(wheel.onTimerTick, wheel.timerDelay);
+                            }
+                        },
+
+                        onTimerTick: function () {
+                            var duration = (new Date().getTime() - wheel.spinStart),
+                                progress = 0,
+                                finished = false;
+                            wheel.frames++;
+                            wheel.draw();
+
+                            if (duration < wheel.upTime) {
+                                progress = duration / wheel.upTime;
+                                wheel.angleDelta = wheel.maxSpeed
+                                    * Math.sin(progress * halfPI);
+                            } else {
+                                progress = duration / wheel.downTime;
+                                wheel.angleDelta = wheel.maxSpeed
+                                    * Math.sin(progress * halfPI + halfPI);
+                                if (progress >= 1) {
+                                    finished = true;
+                                }
+                            }
+
+                            wheel.angleCurrent += wheel.angleDelta;
+                            while (wheel.angleCurrent >= doublePI) {
+                                // Keep the angle in a reasonable range
+                                wheel.angleCurrent -= doublePI;
+                            }
+                            if (finished) {
+                                clearInterval(wheel.timerHandle);
+                                wheel.timerHandle = 0;
+                                wheel.angleDelta = 0;
+                                if (console) {
+                                    console.log((wheel.frames / duration * 1000) + " FPS");
+                                }
+                            }
+
+                            /*
+                            // Display RPM
+                            var rpm = (wheel.angleDelta * (1000 / wheel.timerDelay) * 60) / (Math.PI * 2);
+                            $("#counter").html( Math.round(rpm) + " RPM" );
+                             */
+                        },
+
+
+                        init: function (optionList) {
+                            try {
+                                wheel.initWheel();
+                                wheel.initAudio();
+                                wheel.initCanvas();
+                                wheel.draw();
+                                $.extend(wheel, optionList);
+                            } catch (exceptionData) {
+                                alert('Wheel is not loaded ' + exceptionData);
+                            }
+                        },
+
+                        initAudio: function () {
+                            var sound = document.createElement('audio');
+                            sound.setAttribute('src', 'wheel.mp3');
+                            wheel.sound = sound;
+                        },
+
+                        initCanvas: function () {
+                            var canvas = $('#canvas')[0];
+                            canvas.addEventListener("click", wheel.spin, false);
+                            wheel.canvasContext = canvas.getContext("2d");
+                        },
+
+                        initWheel: function () {
+                            shuffle(wheel.colors);
+                        },
+
+                        // Called when segments have changed
+                        update: function () {
+                            // Ensure we start mid way on a item
+                            //var r = Math.floor(Math.random() * wheel.segments.length);
+                            var r = 0,
+                                segments = wheel.segments,
+                                len = segments.length,
+                                colors = wheel.colors,
+                                colorLen = colors.length,
+                                seg_color = [], // Generate a color cache (so we have consistant coloring)
+                                i
+                            wheel.angleCurrent = ((r + 0.5) / wheel.segments.length) * doublePI;
+                            for (i = 0; i < len; i++) {
+                                seg_color.push(colors [segments[i].hashCode().mod(colorLen)]);
+                            }
+                            wheel.seg_color = seg_color;
+                            wheel.draw();
+                        },
+
+                        draw: function () {
+                            wheel.clear();
+                            wheel.drawWheel();
+                            wheel.drawNeedle();
+                        },
+
+                        clear: function () {
+                            wheel.canvasContext.clearRect(0, 0, 1000, 800);
+                        },
+
+                        drawNeedle: function () {
+                            var ctx = wheel.canvasContext,
+                                centerX = wheel.centerX,
+                                centerY = wheel.centerY,
+                                size = wheel.size,
+                                i,
+                                centerSize = centerX + size,
+                                len = wheel.segments.length,
+                                winner;
+
+                            ctx.lineWidth = 2;
+                            ctx.strokeStyle = blackHex;
+                            ctx.fillStyle = whiteHex;
+
+                            ctx.beginPath();
+
+                            ctx.moveTo(centerSize - 10, centerY);
+                            ctx.lineTo(centerSize + 10, centerY - 10);
+                            ctx.lineTo(centerSize + 10, centerY + 10);
+                            ctx.closePath();
+
+                            ctx.stroke();
+                            ctx.fill();
+
+                            // Which segment is being pointed to?
+                            i = len - Math.floor((wheel.angleCurrent / doublePI) * len) - 1;
+
+                            // Now draw the winning name
+                            ctx.textAlign = "left";
+                            ctx.textBaseline = "middle";
+                            ctx.fillStyle = blackHex;
+                            ctx.font = "2em Arial";
+                            winner = wheel.segments[i] || 'Choose at least 1 Venue';
+                            ctx.fillText(winner, centerSize + 20, centerY);
+                        },
+
+                        drawSegment: function (key, lastAngle, angle) {
+                            var ctx = wheel.canvasContext,
+                                centerX = wheel.centerX,
+                                centerY = wheel.centerY,
+                                size = wheel.size,
+                                colors = wheel.seg_color,
+                                value = wheel.segments[key];
+
+                            //ctx.save();
+                            ctx.beginPath();
+
+                            // Start in the centre
+                            ctx.moveTo(centerX, centerY);
+                            ctx.arc(centerX, centerY, size, lastAngle, angle, false); // Draw an arc around the edge
+                            ctx.lineTo(centerX, centerY); // Now draw a line back to the centre
+
+                            // Clip anything that follows to this area
+                            //ctx.clip(); // It would be best to clip, but we can double performance without it
+                            ctx.closePath();
+                            ctx.fillStyle = colors[key];
+                            ctx.fill();
+                            ctx.stroke();
+
+                            // Now draw the text
+                            ctx.save(); // The save ensures this works on Android devices
+                            ctx.translate(centerX, centerY);
+                            ctx.rotate((lastAngle + angle) / 2);
+                            ctx.fillStyle = whiteHex;
+                            ctx.fillText(value.substr(0, 20), size - 15, 0);
+                            ctx.restore();
+                        },
+
+
+                        drawWheel: function () {
+                            var ctx = wheel.canvasContext,
+                                angleCurrent = wheel.angleCurrent,
+                                lastAngle = angleCurrent,
+                                len = wheel.segments.length,
+                                centerX = wheel.centerX,
+                                centerY = wheel.centerY,
+                                size = wheel.size,
+                                angle,
+                                i;
+
+                            ctx.lineWidth = 1;
+                            ctx.strokeStyle = blackHex;
+                            ctx.textBaseline = "middle";
+                            ctx.textAlign = "right";
+                            ctx.font = "1em Arial";
+
+                            for (i = 1; i <= len; i++) {
+                                angle = doublePI * (i / len) + angleCurrent;
+                                wheel.drawSegment(i - 1, lastAngle, angle);
+                                lastAngle = angle;
+                            }
+
+
+                            // Draw a center circle
+                            ctx.beginPath();
+                            ctx.arc(centerX, centerY, 20, 0, doublePI, false);
+                            ctx.closePath();
+
+
+                            ctx.fillStyle = whiteHex;
+                            //ctx.strokeStyle = blackHex;
+                            ctx.fill();
+                            ctx.stroke();
+
+                            // Draw outer circle
+                            ctx.beginPath();
+                            ctx.arc(centerX, centerY, size, 0, doublePI, false);
+                            ctx.closePath();
+
+                            ctx.lineWidth = 10;
+                            //ctx.strokeStyle = blackHex;
+                            ctx.stroke();
+                        }
+                    };
+
+
+                    $(function () {
+                        var $venues = $('#venues'),
+                            $venueName = $('#name'),
+                            $venueType = $('#types'),
+                            venueTypes = [],
+                            $list = $('<ul/>'),
+                            $types = $('<ul/>'),
+                            $filterToggler = $('#filterToggle'),
+                            arrayUnique = function (a) {
+                                return a.reduce(function (p, c) {
+                                    if (p.indexOf(c) < 0) {
+                                        p.push(c);
+                                    }
+                                    return p;
+                                }, []);
+                            };
+
+                        $.each(venues, function (index, venue) {
+                            $list.append(
+                                $("<li/>")
+                                    .append(
+                                        $("<input />").attr({
+                                            id: 'venue-' + index
+                                            , name: venue.name
+                                            , value: venue.name
+                                            , type: 'checkbox'
+                                            , checked: true
+                                        })
+                                            .change(function () {
+                                                var cbox = this,
+                                                    segments = wheel.segments,
+                                                    i = segments.indexOf(cbox.value);
+                                                if (cbox.checked && i === -1) {
+                                                    segments.push(cbox.value);
+                                                } else if (!cbox.checked && i !== -1) {
+                                                    segments.splice(i, 1);
+                                                }
+                                                segments.sort();
+                                                wheel.update();
+                                            })
+                                    ).append(
+                                    $('<label />').attr({
+                                        'for': 'venue-' + index
+                                    })
+                                        .text(venue.name)
+                                )
+                            );
+                            venueTypes.push(venue.type);
+                        });
+                        $.each(arrayUnique(venueTypes), function (index, venue) {
+                            $types.append(
+                                $("<li/>")
+                                    .append(
+                                        $("<input />").attr({
+                                            id: 'venue-type-' + index
+                                            , name: venue
+                                            , value: venue
+                                            , type: 'checkbox'
+                                            , checked: true
+                                        })
+
+                                            .change(function () {
+                                                var $this = $(this), i;
+                                                for (i = 0; i < venues.length; i++) {
+                                                    if (venues[i].type === $this.val()) {
+                                                        $('[name="' + venues[i].name + '"]').prop("checked", $this.prop('checked')).trigger('change');
+                                                    }
+                                                }
+                                            })
+                                    ).append(
+                                    $('<label />').attr({
+                                        'for': 'venue-' + index
+                                    })
+                                        .text(venue)
+                                )
+                            )
+                        });
+
+                        $venueName.append($list);
+                        $venueType.append($types);
+
+                        // Uses the tinysort plugin, but our array is sorted for now.
+                        //$list.find('>li').tsort("input", {attr: "value"});
+
+                        wheel.init();
+                        $.each($venueName.find('ul input:checked'), function (key, cbox) {
+                            wheel.segments.push(cbox.value);
+                        });
+
+                        wheel.update();
+                        $venues.slideUp().data("open", false);
+                        $filterToggler.on("click", function () {
+                            if ($venues.data("open")) {
+                                $venues.slideUp().data("open", false);
+                            } else {
+                                $venues.slideDown().data("open", true);
+                            }
+                        });
+                        $('.checkAll').on("click", function () {
+                            $(this).parent().next('div').find('input').prop('checked', $(this).prop('checked')).trigger("change");
+                        });
+                    });
+                }(jQuery));
+            </script>
+            <div class="limiter">
+                <div class="container-login100">
+                    <div class="wrap-login100 p-b-160 p-t-50">
+                        <div id="venues"><h1>Venues <input type="checkbox" class="checkAll" checked/></h1>
+                            <div id="name"></div>
+                            <h2>Types <input type="checkbox" class="checkAll" checked/></h2>
+                            <div id="types"></div>
+                        </div>
+                        <div id="filterToggle">. . .</div>
+                        <div id="wheel">
+                            <canvas id="canvas" width="1000" height="600"></canvas>
+                        </div>
+                        <div id="counter"></div>
+                    </div>
+                </div>
+            </div>
         {% endblock %}
  

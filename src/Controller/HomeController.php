@@ -11,6 +11,7 @@ class HomeController extends AbstractController
     /**
      * @Route("/home", name="home")
      */
+
     public function index(): Response
     {
 
@@ -24,16 +25,17 @@ class HomeController extends AbstractController
            if($i% 2 == 0){
                $even[] = $data;
            }
+
            else{
              $odd[] = $data;
            }
        }
 
-
         return $this->render('home/index.html.twig',[
             // 'controller_name' => 'HomeController',
             'even' => $even,
             'odd'=>$odd,
+
         ]);
     }
 

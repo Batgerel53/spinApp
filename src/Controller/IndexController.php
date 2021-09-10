@@ -24,9 +24,17 @@ class IndexController extends AbstractController
         ]);
     }
 
+
+
+
+
+
+
     /**
      * @Route("/spin", name="spin")
      */
+
+
 
     public function spin(Request $request): Response
     {
@@ -36,9 +44,16 @@ class IndexController extends AbstractController
     }
 
 
+
+
+
+
+
+
     /**
      * @Route("/create", name="create")
      */
+
     public function create(Request $request)
     {
         $tohirol = new Tohirol();
@@ -50,7 +65,6 @@ class IndexController extends AbstractController
             $em->persist($tohirol);
             $em->flush();
             $this->addFlash('notice', 'Амжилттай нэмэгдлээ ');
-
             return $this->redirectToRoute('index');
         }
 
@@ -83,7 +97,6 @@ class IndexController extends AbstractController
     /**
      * @Route("/delete/ {id}", name="delete")
      */
-
     public function delete($id)
     {
         $data = $this->getDoctrine()->getRepository(Tohirol::class)->find($id);

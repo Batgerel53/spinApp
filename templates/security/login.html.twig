@@ -20,19 +20,15 @@
         </div>
     {% endif %}
 
+
+
     <h3 class="mt-5 mb-5" style="color:white; text-align:center; font-size:36px;"> Нэвтрэх </h3>
-         
     <label for="inputEmail">И-мэйл хаяг</label>
+
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
     <label for="inputPassword">Нууц үг</label>
+
     <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-
-
-
-
-
-
     <input type="hidden" name="_csrf_token"
            value="{{ csrf_token('authenticate')}}">
 
@@ -41,7 +37,7 @@
                 <input type="checkbox" name="_remember_me"> Сануулах
             </label>
         </div>
-  
+
     <button class="login100-form-btn" type="submit">
      Нэвтрэх
     </button>
@@ -67,8 +63,6 @@
         </div>
     {% endif %}
 
-
-
 <label for="inputEmail">И-мэйл хаяг</label>
     <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
     <label for="inputPassword">Нууц үг</label>
@@ -85,14 +79,9 @@
     <button class="btn btn-lg btn-primary" type="submit">
      Нэвтрэх
     </button>
-
 </form>
 
 </div>
  </div>
 </div> #}
-
-
-
-
 {% endblock %}
